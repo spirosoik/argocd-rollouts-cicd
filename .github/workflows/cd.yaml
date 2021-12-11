@@ -20,7 +20,7 @@ jobs:
 
     - name: Build
       run: |
-        TAG="${GITHUB_REF##*/}" make push-docker
+        TAG="${GITHUB_REF##*/}" make push-image
 
     - name: Deploy
       run: |

@@ -57,4 +57,4 @@ jobs:
 
     - name: Build
       run: |
-        TAG=${{ steps.branch.outputs.current_branch }} make push-docker
+        TAG=${{ steps.branch.outputs.current_branch }} make push-image
