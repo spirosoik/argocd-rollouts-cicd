@@ -1,0 +1,32 @@
+name: tag
+on:
+  push:
+    tags:        
+      - 'v*'
+
+jobs:
+  build: 
+    name: Build & Push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install yq
+      uses: mikefarah/yq@master
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build
+      run: |
+        TAG="${GITHUB_REF##*/}" make push-docker
+
+    - name: Deploy
+      run: |
+        yq e -i '.spec.template.spec.containers[0].image="spirosoik/cho06:${GITHUB_REF##*/}"' calc-deployment.yml
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m "Update docker image tag - Build #${GITHUB_RUN_NUMBER}"
+        git push
