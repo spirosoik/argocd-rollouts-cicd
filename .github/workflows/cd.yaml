@@ -12,6 +12,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Download Argo CD CLI
+        run: |
+          make download-argo-cli
+
       - name: Install yq
         uses: mikefarah/yq@master
 
@@ -30,4 +34,14 @@ jobs:
           TAG="${GITHUB_REF##*/}"
           BUILD_NUMBER=${GITHUB_RUN_NUMBER}
 
-          make deploy
+          make update-docker-tag
+
+      - name: Deploy Argo App
+        run: |
+          make deploy-argo-app
+        env:
+          PROJ: team
+          APP: blue-green
+          ROLE: ci-role
+          JWT: ${{ secrets.ARGOCD_TOKEN }}
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}

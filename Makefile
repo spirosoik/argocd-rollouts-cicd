@@ -28,7 +28,7 @@ build-image:  ## Build the docker image for mattermost-cloud
 	. -f Dockerfile -t $(CH06_IMAGE)
 
 .PHONY: deploy
-deploy: # Deploy  the app
+update-docker-tag: # Deploy  the app
 	@echo Deploying App Docker
 	yq e -i '.spec.template.spec.containers[0].image="spirosoik/cho06:${TAG}"' argo/rollout.yaml
 	git config user.name github-actions
@@ -52,7 +52,7 @@ deploy-argo-app:
 	
 	@echo Syncing Argo App
 	argocd app sync ${APP} \
-	--auth-token ${JWT}
+	--auth-token ${JWT} && argocd app wait ${APP}
 
 .PHONY: download-argo-cli
 download-argo-cli:
