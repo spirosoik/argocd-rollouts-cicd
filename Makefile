@@ -33,7 +33,7 @@ deploy-argo-app:
     argocd app \
 	create ${APP} \
 	--repo https://github.com/spirosoik/argocd-rollouts-cicd.git \
-	--path deployments/argo --dest-namespace team \
+	--path deployments/argo --dest-namespace team-demo \
 	--dest-server https://kubernetes.default.svc \
 	--project ${PROJ} \
 	--auth-token ${JWT} \
