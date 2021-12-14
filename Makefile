@@ -27,6 +27,23 @@ build-image:  ## Build the docker image for mattermost-cloud
 	--build-arg APP_VERSION=$(TAG) \
 	. -f Dockerfile -t $(CH06_IMAGE)
 
+.PHONY: deploy-argo-app
+deploy-argo-app:
+	@echo Deploying Argo App
+    argocd app create ${APP} \
+	--repo https://github.com/spirosoik/argocd-rollouts-cicd.git \
+	--path deployments/argo --dest-namespace team \
+	--dest-server https://kubernetes.default.svc \
+	--project ${PROJ} \
+	--auth-token ${JWT} \
+	--upsert
+
+.PHONY: download-argo-cli
+download-argo-cli:
+	@echo Downloading Argo CLI
+	curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+	chmod +x /usr/local/bin/argocd
+	
 .PHONY: check-linet
 check-lint: ## Checks if golangci-lint exists
 	@if ! [ -x "$$(command -v golangci-lint)" ]; then \

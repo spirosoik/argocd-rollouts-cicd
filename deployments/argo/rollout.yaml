@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: app
+  namespace: team-demo
 spec:
   replicas: 2
   strategy:

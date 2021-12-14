@@ -58,3 +58,22 @@ jobs:
     - name: Build
       run: |
         TAG=${{ steps.branch.outputs.current_branch }} make push-image
+
+  deploy-argo:
+    name: Deploy Argo App
+    runs-on: ubuntu-latest
+    needs: ["build"]
+    if: github.ref == 'refs/heads/master'
+    steps:
+    - name: Download Argo CD CLI
+      run: |
+        make download-argo-cli
+
+    - name: Deploy Argo app
+      run: |
+        make deploy-argo-app
+      env:
+        PROJ: team
+        APP: blue-green
+        ROLE: ci-role
+        JWT: ${{ secrets.ARGOCD_TOKEN }}

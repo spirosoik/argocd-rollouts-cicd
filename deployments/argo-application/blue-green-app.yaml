@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: blue-green
+  namespace: team
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
