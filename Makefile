@@ -35,7 +35,7 @@ update-docker-tag: # Deploy  the app
 	git config user.email github-actions@github.com
 	git add .
 	git commit -m "Release ${TAG} - Build #${BUILD_NUMBER}"
-	git push origin main
+	git push
 
 .PHONY: deploy-argo-app
 deploy-argo-app:

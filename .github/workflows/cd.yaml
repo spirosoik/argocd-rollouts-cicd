@@ -36,6 +36,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: main
 
     - name: Download Argo CD CLI
       run: |
@@ -43,10 +45,7 @@ jobs:
 
     - name: Update Docker Tag
       run: |
-        TAG="${GITHUB_REF##*/}"
-        BUILD_NUMBER=${GITHUB_RUN_NUMBER}
-
-        make update-docker-tag
+        TAG="${GITHUB_REF##*/}" BUILD_NUMBER=${GITHUB_RUN_NUMBER} make update-docker-tag
 
     - name: Deploy Argo App
       run: |
