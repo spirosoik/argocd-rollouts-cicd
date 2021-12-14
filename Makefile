@@ -45,10 +45,15 @@ deploy-argo-app:
 	--path deployments/argo \
 	--dest-namespace team-demo \
 	--dest-server https://kubernetes.default.svc \
+	--sync-option CreateNamespace=true \
 	--project ${PROJ} \
 	--auth-token ${JWT} \
 	--upsert
-	argocd app sync ${APP} --resource argoproj.io:Rollout:app --auth-token ${JWT}
+	
+	@echo Syncing Argo App
+	argocd app sync ${APP} \
+	--resource argoproj.io:Rollout:app \
+	--auth-token ${JWT}
 
 .PHONY: download-argo-cli
 download-argo-cli:
