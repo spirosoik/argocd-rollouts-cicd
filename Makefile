@@ -52,7 +52,6 @@ deploy-argo-app:
 	
 	@echo Syncing Argo App
 	argocd app sync ${APP} \
-	--resource argoproj.io:Rollout:app \
 	--auth-token ${JWT}
 
 .PHONY: download-argo-cli
