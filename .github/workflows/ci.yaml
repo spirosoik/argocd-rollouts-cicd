@@ -70,7 +70,7 @@ jobs:
 
     - name: Download Argo CD CLI
       run: |
-        make download-argo-cli:
+        make download-argo-cli
 
     - name: Deploy Argo app
       run: |
