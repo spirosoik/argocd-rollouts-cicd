@@ -24,9 +24,7 @@ jobs:
 
     - name: Deploy
       run: |
-        yq e -i '.spec.template.spec.containers[0].image="spirosoik/cho06:${GITHUB_REF##*/}"' calc-deployment.yml
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add .
-        git commit -m "Update docker image tag - Build #${GITHUB_RUN_NUMBER}"
-        git push
+        TAG="${GITHUB_REF##*/}"
+        BUILD_NUMBER=${GITHUB_RUN_NUMBER}
+
+        make deploy
