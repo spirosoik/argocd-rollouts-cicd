@@ -30,8 +30,7 @@ build-image:  ## Build the docker image for mattermost-cloud
 .PHONY: deploy-argo-app
 deploy-argo-app:
 	@echo Deploying Argo App
-    argocd app \
-	create ${APP} \
+	argocd app create \
 	--repo https://github.com/spirosoik/argocd-rollouts-cicd.git \
 	--path deployments/argo --dest-namespace team-demo \
 	--dest-server https://kubernetes.default.svc \
