@@ -29,19 +29,31 @@ jobs:
         run: |
           TAG="${GITHUB_REF##*/}" make push-image
 
-      - name: Deploy
-        run: |
-          TAG="${GITHUB_REF##*/}"
-          BUILD_NUMBER=${GITHUB_RUN_NUMBER}
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: ["build"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-          make update-docker-tag
+    - name: Download Argo CD CLI
+      run: |
+        make download-argo-cli
 
-      - name: Deploy Argo App
-        run: |
-          make deploy-argo-app
-        env:
-          PROJ: team
-          APP: blue-green
-          ROLE: ci-role
-          JWT: ${{ secrets.ARGOCD_TOKEN }}
-          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+    - name: Update Docker Tag
+      run: |
+        TAG="${GITHUB_REF##*/}"
+        BUILD_NUMBER=${GITHUB_RUN_NUMBER}
+
+        make update-docker-tag
+
+    - name: Deploy Argo App
+      run: |
+        make deploy-argo-app
+      env:
+        PROJ: team
+        APP: blue-green
+        ROLE: ci-role
+        JWT: ${{ secrets.ARGOCD_TOKEN }}
+        ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
