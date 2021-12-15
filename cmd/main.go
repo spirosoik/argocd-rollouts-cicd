@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var response string
+var BuildVersion = "v0.0"
 
 func main() {
 	http.HandleFunc("/version", version)
@@ -13,5 +13,5 @@ func main() {
 }
 
 func version(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, response)
+	fmt.Fprint(w, BuildVersion)
 }

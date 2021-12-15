@@ -11,12 +11,12 @@ CH06_IMAGE ?= ${REGISTRY}/ch06:${TAG}
 .PHONY: build-linux
 build-linux: # Building linux binaries
 	@echo Building ${APP_VERSION} binary for linux
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -tags='${APP_VERSION}' -o bin/server ./cmd
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-X 'main.BuildVersion=${TAG}'" -o bin/server ./cmd
 
 .PHONY: build-mac
 build-mac: # Building mac binaries
 	@echo Building ${APP_VERSION} binary for linux
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -tags='${APP_VERSION}' -o bin/server ./cmd
+	GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-X 'main.BuildVersion=${TAG}'" -o bin/server ./cmd
 
 .PHONY: build-image
 build-image:  ## Build the docker image for mattermost-cloud
