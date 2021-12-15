@@ -52,7 +52,10 @@ deploy-argo-app:
 	
 	@echo Syncing Argo App
 	argocd app sync ${APP} \
-	--auth-token ${JWT} && argocd app wait ${APP} --auth-token ${JWT}
+	--auth-token ${JWT}
+
+	@echo Waiting Argo App to be health
+	argocd app wait ${APP} --auth-token ${JWT}
 
 .PHONY: download-argo-cli
 download-argo-cli:
