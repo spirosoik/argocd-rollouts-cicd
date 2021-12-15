@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generated-name: integration-tests
+  generateName: integration-tests
   namespace: team-demo
   annotations:
     argocd.argoproj.io/hook: Sync
