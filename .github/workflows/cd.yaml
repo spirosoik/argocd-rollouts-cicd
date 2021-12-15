@@ -56,6 +56,7 @@ jobs:
         JWT: ${{ secrets.ARGOCD_TOKEN }}
         ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
         ARGOCD_STATE: "--suspended"
+        ARGOCD_PATH: "deployments/argo"
 
     - name: Integration Tests and Promote
       run: |
@@ -67,6 +68,7 @@ jobs:
         JWT: ${{ secrets.ARGOCD_TOKEN }}
         ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
         ARGOCD_STATE: "--health"
+        ARGOCD_PATH: "deployments/integration-tests"
 
     - name: Cleanup tests
       run: |
