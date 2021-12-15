@@ -42,7 +42,7 @@ create-argo-app: # Creates the argo app
 	@echo Deploying Argo App
 	argocd app create ${APP} \
 	--repo https://github.com/spirosoik/argocd-rollouts-cicd.git \
-	--path ${ARGO_PATH} \
+	--path ${ARGOCD_PATH} \
 	--dest-namespace team-demo \
 	--dest-server https://kubernetes.default.svc \
 	--sync-option CreateNamespace=true \
