@@ -5,7 +5,9 @@ metadata:
   namespace: team-demo
 rules:
   - apiGroups: ["argoproj.io"]
-    resources: ["rollouts"]
+    resources: 
+      - "rollouts"
+      - "rollouts/status"
     verbs: ["*"]
 ---
 kind: RoleBinding
