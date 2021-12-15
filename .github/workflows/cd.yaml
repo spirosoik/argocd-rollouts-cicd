@@ -56,3 +56,28 @@ jobs:
         ROLE: ci-role
         JWT: ${{ secrets.ARGOCD_TOKEN }}
         ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+        ARGOCD_STATE: "--suspended"
+
+    - name: Integration Tests and Promote
+      run: |
+        sed -i '' 's/APP_VERSION/$TAG/g' deployments/integration-tests/integration-job.yaml
+        make create-argo-app deploy-argo-app
+      env:
+        PROJ: team
+        APP: integration-tests-blue-green
+        ROLE: ci-role
+        JWT: ${{ secrets.ARGOCD_TOKEN }}
+        ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+        ARGOCD_STATE: "--healthy"
+
+    - name: Cleanup tests
+      run: |
+        make clean-tests-on-success
+      env:
+        PROJ: team
+        APP: integration-tests-blue-green
+        ROLE: ci-role
+        JWT: ${{ secrets.ARGOCD_TOKEN }}
+        ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+        ARGOCD_STATE: "--healthy"
+

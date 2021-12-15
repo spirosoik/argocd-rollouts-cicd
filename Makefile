@@ -28,7 +28,7 @@ build-image:  ## Build the docker image for mattermost-cloud
 	. -f Dockerfile -t $(CH06_IMAGE)
 
 .PHONY: deploy
-update-docker-tag: # Deploy  the app
+update-docker-tag: # Update the docker tag
 	@echo Deploying App Docker
 	yq e -i '.spec.template.spec.containers[0].image="spirosoik/ch06:${TAG}"' deployments/argo/rollout.yaml
 	git config user.name github-actions
@@ -38,7 +38,7 @@ update-docker-tag: # Deploy  the app
 	git push
 
 .PHONY: create-argo-app
-create-argo-app:
+create-argo-app: # Creates the argo app
 	@echo Deploying Argo App
 	argocd app create ${APP} \
 	--repo https://github.com/spirosoik/argocd-rollouts-cicd.git \
@@ -51,18 +51,23 @@ create-argo-app:
 	--upsert
 
 .PHONY: deploy-argo-app
-deploy-argo-app:
+deploy-argo-app: # Deploys the app
 	@echo Syncing Argo App
 	argocd app sync ${APP} --auth-token ${JWT}
 
 	@echo Waiting Argo App to be healthy
-	argocd app wait ${APP} --auth-token ${JWT} --suspended --timeout=120s
+	argocd app wait ${APP} --auth-token ${JWT} ${ARGO_STATE} --timeout=120s
 
 .PHONY: download-argo-cli
-download-argo-cli:
+download-argo-cli: # Downloads the Argo CLI
 	@echo Downloading Argo CLI
 	curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 	chmod +x /usr/local/bin/argocd
+
+.PHONY: clean-tests-on-success
+clean-tests-on-success:
+	@echo Cleaning smoke tests on success
+	argocd app delete ${APP} --auth-token ${JWT}
 	
 .PHONY: check-linet
 check-lint: ## Checks if golangci-lint exists
