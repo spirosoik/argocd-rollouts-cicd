@@ -72,9 +72,9 @@ jobs:
       run: |
         make download-argo-cli
 
-    - name: Create Argo app
+    - name: Deploy Argo app
       run: |
-        make create-argo-app
+        make create-argo-app deploy-argo-app
       env:
         PROJ: team
         APP: blue-green
