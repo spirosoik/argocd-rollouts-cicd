@@ -37,8 +37,8 @@ update-docker-tag: # Deploy  the app
 	git commit -m "Release ${TAG} - Build #${BUILD_NUMBER}"
 	git push
 
-.PHONY: deploy-argo-app
-deploy-argo-app:
+.PHONY: create-argo-app
+create-argo-app:
 	@echo Deploying Argo App
 	argocd app create ${APP} \
 	--repo https://github.com/spirosoik/argocd-rollouts-cicd.git \
@@ -49,13 +49,14 @@ deploy-argo-app:
 	--project ${PROJ} \
 	--auth-token ${JWT} \
 	--upsert
-	
-	@echo Syncing Argo App
-	argocd app sync ${APP} \
-	--auth-token ${JWT}
 
-	@echo Waiting Argo App to be health
-	argocd app wait ${APP} --auth-token ${JWT}
+.PHONY: deploy-argo-app
+deploy-argo-app:
+	@echo Syncing Argo App
+	argocd app sync ${APP} --auth-token ${JWT}
+
+	@echo Waiting Argo App to be healthy
+	argocd app wait ${APP} --auth-token ${JWT} --suspended --timeout=120s
 
 .PHONY: download-argo-cli
 download-argo-cli:

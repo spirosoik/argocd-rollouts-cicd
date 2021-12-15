@@ -60,7 +60,7 @@ jobs:
         TAG=${{ steps.branch.outputs.current_branch }} make push-image
 
   deploy-argo:
-    name: Deploy Argo App
+    name: Create Argo App
     runs-on: ubuntu-latest
     needs: ["build"]
     if: github.ref == 'refs/heads/main'
@@ -72,9 +72,9 @@ jobs:
       run: |
         make download-argo-cli
 
-    - name: Deploy Argo app
+    - name: Create Argo app
       run: |
-        make deploy-argo-app
+        make create-argo-app
       env:
         PROJ: team
         APP: blue-green
