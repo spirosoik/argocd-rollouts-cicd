@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: spirosoik/ch06:v2.2
+          image: spirosoik/ch06:v2.3
           ports:
             - name: http
               containerPort: 3000
