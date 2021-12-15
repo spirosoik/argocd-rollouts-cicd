@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: rollout-promote
+  generated-name: rollout-promote
   namespace: team-demo
   annotations:
     argocd.argoproj.io/hook: PostSync
