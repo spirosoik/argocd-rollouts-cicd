@@ -74,7 +74,7 @@ jobs:
 
     - name: Deploy Argo app
       run: |
-        make create-argo-app deploy-argo-app
+        make create-argo-app
       env:
         PROJ: team
         APP: blue-green
