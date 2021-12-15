@@ -4,7 +4,7 @@ ARG DOCKER_BASE_IMAGE=alpine:3.14
 # build the binary
 FROM ${DOCKER_BUILD_IMAGE} AS build
 
-ARG APP_VERSION=v1.0
+ARG TAG=v1.0
 
 WORKDIR /opt/app
 COPY . /opt/app
