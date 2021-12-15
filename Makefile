@@ -31,6 +31,7 @@ build-image:  ## Build the docker image for mattermost-cloud
 update-docker-tag: # Update the docker tag
 	@echo Deploying App Docker
 	yq e -i '.spec.template.spec.containers[0].image="spirosoik/ch06:${TAG}"' deployments/argo/rollout.yaml
+	sed -i 's/APP_VERSION/${TAG}/g' deployments/integration-tests/integration-job.yaml
 	git config user.name github-actions
 	git config user.email github-actions@github.com
 	git add .
