@@ -80,3 +80,4 @@ jobs:
         APP: blue-green
         JWT: ${{ secrets.ARGOCD_TOKEN }}
         ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+        ARGOCD_PATH: "deployments/argo"
